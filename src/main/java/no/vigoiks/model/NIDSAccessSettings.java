@@ -19,4 +19,7 @@ public final class NIDSAccessSettings {
 
     @Attribute(name = "nidsCardText")
     private String nidsCardText;
+
+    @Attribute(name = "nidsImageReference")
+    private String nidsImageReference;
 }

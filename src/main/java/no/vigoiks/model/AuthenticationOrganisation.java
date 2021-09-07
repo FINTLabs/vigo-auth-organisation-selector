@@ -8,4 +8,5 @@ import lombok.Data;
 public class AuthenticationOrganisation {
     private String displayName;
     private String url;
+    private Image image;
 }
