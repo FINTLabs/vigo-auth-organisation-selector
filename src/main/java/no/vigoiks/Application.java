@@ -1,13 +1,13 @@
-package no.vigoiks.vigoauthorganisationselector;
+package no.vigoiks;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VigoAuthOrganisationSelectorApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(VigoAuthOrganisationSelectorApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }
