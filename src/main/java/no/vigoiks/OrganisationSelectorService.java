@@ -33,9 +33,17 @@ public class OrganisationSelectorService {
     }
 
     public List<AuthenticationOrganisation> getAuthenticationOrganisations() {
-        return nidsSaml2TrustedIDPRepository.findAll()
+        return nidsSaml2TrustedIDPRepository
+                .findAll()
                 .stream()
-                .map(nidsSaml2TrustedIDP -> nidsAccessSettingsRepository.findOne(LdapQueryBuilder.query().base(nidsSaml2TrustedIDP.getDn()).where("objectClass").is("nidsAccessSettings")).orElse(new NIDSAccessSettings()))
+                .map(nidsSaml2TrustedIDP -> nidsAccessSettingsRepository
+                        .findOne(
+                                LdapQueryBuilder
+                                        .query()
+                                        .base(nidsSaml2TrustedIDP.getDn())
+                                        .where("objectClass")
+                                        .is("nidsAccessSettings"))
+                        .orElse(new NIDSAccessSettings()))
                 .map(nidsAccessSettings -> AuthenticationOrganisation
                         .builder()
                         .displayName(nidsAccessSettings.getNidsCardText())

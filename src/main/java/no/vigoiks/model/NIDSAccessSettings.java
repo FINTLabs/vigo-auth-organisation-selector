@@ -14,7 +14,6 @@ public final class NIDSAccessSettings {
     @Id
     private Name dn;
 
-
     @Attribute(name = "nidsCardID")
     private String nidsCardId;
 
