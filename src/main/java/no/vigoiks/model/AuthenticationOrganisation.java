@@ -1,4 +1,4 @@
-package no.vigoiks;
+package no.vigoiks.model;
 
 import lombok.Builder;
 import lombok.Data;

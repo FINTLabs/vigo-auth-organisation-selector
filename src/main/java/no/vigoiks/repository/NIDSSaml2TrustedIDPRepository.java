@@ -1,5 +1,6 @@
-package no.vigoiks;
+package no.vigoiks.repository;
 
+import no.vigoiks.model.NIDSSaml2TrustedIDP;
 import org.springframework.data.ldap.repository.LdapRepository;
 import org.springframework.stereotype.Repository;
 

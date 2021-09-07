@@ -1,4 +1,4 @@
-package no.vigoiks;
+package no.vigoiks.model;
 
 import lombok.Data;
 import org.springframework.ldap.odm.annotations.Attribute;
@@ -9,7 +9,7 @@ import javax.naming.Name;
 
 @Data
 @Entry(objectClasses = {"top", "nidsSaml2TrustedIDP"}, base = "cn=cluster,cn=nids,ou=accessManagerContainer,o=novell")
-public class NIDSSaml2TrustedIDP {
+public final class NIDSSaml2TrustedIDP {
 
     @Id
     private Name dn;

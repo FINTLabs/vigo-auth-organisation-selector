@@ -1,4 +1,4 @@
-package no.vigoiks;
+package no.vigoiks.model;
 
 import lombok.Data;
 import org.springframework.ldap.odm.annotations.Attribute;
@@ -9,7 +9,7 @@ import javax.naming.Name;
 
 @Data
 @Entry(objectClasses = {"top", "nidsAccessSettings"})
-public class NIDSAccessSettings {
+public final class NIDSAccessSettings {
 
     @Id
     private Name dn;
