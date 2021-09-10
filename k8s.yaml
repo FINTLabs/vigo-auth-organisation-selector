@@ -38,6 +38,9 @@ spec:
         - name: secrets
           secret:
             secretName: "namadmcon01"
+            items:
+              - key: cacerts.jks
+                path: cacerts.jks
       containers:
         - name: vigo-auth-organisation-selector
           image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}
