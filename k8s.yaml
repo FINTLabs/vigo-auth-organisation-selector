@@ -34,6 +34,10 @@ spec:
         - ip: "10.0.0.10"
           hostnames:
             - "namadmcon01"
+      volumes:
+        - name: secrets
+          secret:
+            secretName: "namadmcon01"
       containers:
         - name: vigo-auth-organisation-selector
           image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}
@@ -68,10 +72,3 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 5
-      volumes:
-        - name: secrets
-          secret:
-            secretName: "vigo-auth-organisation-selector"
-            items:
-              - key: cacerts.jks
-                path: cacerts.jks
