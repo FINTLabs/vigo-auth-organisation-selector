@@ -14,6 +14,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: vigo-auth-organisation-selector
+  annotations:
+    operator.1password.io/item-path: "vaults/aks-api-vault/items/vigo-auth-organisation-selector"
+    operator.1password.io/item-name: "vigo-auth-organisation-selector"
 spec:
   selector:
     matchLabels:
@@ -33,6 +36,13 @@ spec:
           env:
             - { name: management.endpoints.web.exposure.include, value: "info, health, metrics, prometheus" }
             - { name: TZ, value: Europe/Oslo }
+          envFrom:
+            - secretRef:
+                name: vigo-auth-organisation-selector
+          volumeMounts:
+            - name: secrets
+              mountPath: /mnt/secrets
+              readOnly: true
           resources:
             limits:
               memory: "256Mi"
@@ -54,3 +64,10 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 5
+      volumes:
+        - name: secrets
+          secret:
+            secretName: "vigo-auth-organisation-selector"
+            items:
+              - key: cacerts.jks
+                path: cacerts.jks
