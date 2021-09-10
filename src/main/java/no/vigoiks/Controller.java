@@ -28,6 +28,6 @@ public class Controller {
 
     @GetMapping("contract/common")
     public ResponseEntity<List<AuthenticationContract>> getCommonContracts() {
-        return ResponseEntity.ok(organisationSelectorService.getCustomerContracts());
+        return ResponseEntity.ok(organisationSelectorService.getCommonContracts());
     }
 }
