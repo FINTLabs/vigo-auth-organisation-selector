@@ -18,6 +18,7 @@ metadata:
     operator.1password.io/item-path: "vaults/aks-api-vault/items/vigo-auth-organisation-selector"
     operator.1password.io/item-name: "vigo-auth-organisation-selector"
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: vigo-auth-organisation-selector
