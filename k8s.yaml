@@ -30,6 +30,10 @@ spec:
         prometheus.io/port: "8080"
         prometheus.io/path: "actuator/prometheus"
     spec:
+      hostAliases:
+        - ip: "10.0.0.10"
+          hostnames:
+            - "namadmcon01"
       containers:
         - name: vigo-auth-organisation-selector
           image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}
