@@ -10,4 +10,4 @@ RUN gradle --no-daemon clean build
 FROM openjdk:11.0-jre
 ENV JAVA_TOOL_OPTIONS -XX:+ExitOnOutOfMemoryError
 COPY --from=builder /home/gradle/build/libs/vigo-auth-organisation-selector-*.jar /data/vigo-auth-organisation-selector.jar
-CMD ["/data/vigo-auth-organisation-selector.jar"]
+CMD ["java","-jar","/data/vigo-auth-organisation-selector.jar"]
