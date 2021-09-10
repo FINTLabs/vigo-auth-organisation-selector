@@ -37,4 +37,4 @@ out/
 .vscode/
 
 cacerts.jks
-certfile.txt
+server.cer
