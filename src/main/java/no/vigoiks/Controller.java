@@ -1,7 +1,7 @@
 package no.vigoiks;
 
 import lombok.extern.slf4j.Slf4j;
-import no.vigoiks.model.AuthenticationOrganisation;
+import no.vigoiks.model.AuthenticationContract;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +21,13 @@ public class Controller {
         this.organisationSelectorService = organisationSelectorService;
     }
 
-    @GetMapping("organisations")
-    public ResponseEntity<List<AuthenticationOrganisation>> getOrganisations() {
-        return ResponseEntity.ok(organisationSelectorService.getAuthenticationOrganisations());
+    @GetMapping("contract/customer")
+    public ResponseEntity<List<AuthenticationContract>> getCustomerContracts() {
+        return ResponseEntity.ok(organisationSelectorService.getCustomerContracts());
+    }
+
+    @GetMapping("contract/common")
+    public ResponseEntity<List<AuthenticationContract>> getCommonContracts() {
+        return ResponseEntity.ok(organisationSelectorService.getCustomerContracts());
     }
 }

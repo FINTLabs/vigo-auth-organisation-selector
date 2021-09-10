@@ -1,10 +1,7 @@
 package no.vigoiks;
 
 import lombok.extern.slf4j.Slf4j;
-import no.vigoiks.model.AuthenticationOrganisation;
-import no.vigoiks.model.Image;
-import no.vigoiks.model.NIDSAccessSettings;
-import no.vigoiks.model.NIDSImage;
+import no.vigoiks.model.*;
 import no.vigoiks.repository.NIDSAccessSettingsRepository;
 import no.vigoiks.repository.NIDSImageRepository;
 import no.vigoiks.repository.NIDSSaml2TrustedIDPRepository;
@@ -16,7 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -39,26 +38,48 @@ public class OrganisationSelectorService {
     public void init() {
     }
 
-    @Cacheable("authentication-organisations")
-    public List<AuthenticationOrganisation> getAuthenticationOrganisations() {
+    @Cacheable("customer-contracts")
+    public List<AuthenticationContract> getCustomerContracts() {
+        return getContracts()
+                .filter(AuthenticationContract::isCustomer)
+                .collect(Collectors.toList());
+    }
+
+    @Cacheable("common-contracts")
+    public List<AuthenticationContract> getCommonContracts() {
+        return getContracts()
+                .filter(AuthenticationContract::isCommon)
+                .collect(Collectors.toList());
+    }
+
+    private Stream<AuthenticationContract> getContracts() {
         return nidsSaml2TrustedIDPRepository
                 .findAll()
                 .stream()
-                .map(nidsSaml2TrustedIDP -> nidsAccessSettingsRepository
-                        .findOne(
-                                LdapQueryBuilder
-                                        .query()
-                                        .base(nidsSaml2TrustedIDP.getDn())
-                                        .where("objectClass")
-                                        .is("nidsAccessSettings"))
-                        .orElse(new NIDSAccessSettings()))
-                .map(nidsAccessSettings -> AuthenticationOrganisation
-                        .builder()
-                        .displayName(nidsAccessSettings.getNidsCardText())
-                        .url(String.format(idpUriTemplate, nidsAccessSettings.getNidsCardId()))
-                        .image(getImage(nidsAccessSettings))
-                        .build())
-                .collect(Collectors.toList());
+                .map(getNIDSContract())
+                .map(getAuthenticationContract());
+    }
+
+    private Function<NIDSAccessSettings, AuthenticationContract> getAuthenticationContract() {
+        return nidsAccessSettings ->
+                AuthenticationContract
+                        .create(
+                                nidsAccessSettings,
+                                getImage(nidsAccessSettings),
+                                String.format(idpUriTemplate, nidsAccessSettings.getNidsCardId()
+                                )
+                        );
+    }
+
+    private Function<NIDSSaml2TrustedIDP, NIDSAccessSettings> getNIDSContract() {
+        return nidsSaml2TrustedIDP -> nidsAccessSettingsRepository
+                .findOne(
+                        LdapQueryBuilder
+                                .query()
+                                .base(nidsSaml2TrustedIDP.getDn())
+                                .where("objectClass")
+                                .is("nidsAccessSettings"))
+                .orElse(new NIDSAccessSettings());
     }
 
     private Image getImage(NIDSAccessSettings nidsAccessSettings) {
