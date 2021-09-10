@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vigo-auth-organisation-selector
+  annotations: {service.beta.kubernetes.io/azure-load-balancer-internal: 'true'}
+spec:
+  selector:
+    app: vigo-auth-organisation-selector
+  type: LoadBalancer
+  ports:
+    - {name: '8080', port: 8080}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vigo-auth-organisation-selector
+spec:
+  selector:
+    matchLabels:
+      app: vigo-auth-organisation-selector
+  template:
+    metadata:
+      labels:
+        app: vigo-auth-organisation-selector
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "actuator/prometheus"
+    spec:
+      serviceAccountName: vigo-auth-organisation-selector
+      containers:
+        - name: vigo-auth-organisation-selector
+          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}
+          env:
+            - { name: management.endpoints.web.exposure.include, value: "info, health, metrics, prometheus" }
+            - { name: TZ, value: Europe/Oslo }
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 5

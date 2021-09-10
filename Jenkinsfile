@@ -16,6 +16,7 @@ pipeline {
                     sh "docker tag ${GIT_COMMIT} fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}"
                     sh "docker push fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}"
                 }
+                kubernetesDeploy configs: 'k8s.yaml', kubeconfigId: 'aks-api-fint'
             }
         }
     }
