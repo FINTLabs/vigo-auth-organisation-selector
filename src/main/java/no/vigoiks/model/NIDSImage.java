@@ -10,7 +10,7 @@ import javax.naming.Name;
 
 @Data
 @Entry(objectClasses = {"top", "nidsImage"})
-public class NIDSImage {
+public final class NIDSImage {
 
 
     @Id

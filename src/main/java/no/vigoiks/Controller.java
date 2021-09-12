@@ -14,20 +14,20 @@ import java.util.List;
 @RequestMapping(value = "/api")
 public class Controller {
 
-    private final OrganisationSelectorService organisationSelectorService;
+    private final ContractService contractService;
 
 
-    public Controller(OrganisationSelectorService organisationSelectorService) {
-        this.organisationSelectorService = organisationSelectorService;
+    public Controller(ContractService contractService) {
+        this.contractService = contractService;
     }
 
     @GetMapping("contract/customer")
     public ResponseEntity<List<AuthenticationContract>> getCustomerContracts() {
-        return ResponseEntity.ok(organisationSelectorService.getCustomerContracts());
+        return ResponseEntity.ok(contractService.getCustomerContracts());
     }
 
     @GetMapping("contract/common")
     public ResponseEntity<List<AuthenticationContract>> getCommonContracts() {
-        return ResponseEntity.ok(organisationSelectorService.getCommonContracts());
+        return ResponseEntity.ok(contractService.getCommonContracts());
     }
 }
