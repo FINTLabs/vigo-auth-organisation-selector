@@ -1,5 +1,15 @@
 # Vigo Authentication Organisation Selector
 
+
+## Configuration
+| Property   |      Description      |  Default value |
+|----------|:-------------:|------:|
+| vigo.authentication.organisation.selector.idp-uri-template |  | https://idp.felleskomponent.no/nidp/saml2/spsend?id=%s&sid=1 |
+| vigo.authentication.organisation.selector.refresh.cron | | `0 */5 * * * *` |
+| fint.ldap.url | | |
+| fint.ldap.user | | |
+| fint.ldap.password | | |
+
 ## Setup certificate
 1. Get the certificate from the server
 

@@ -30,22 +30,6 @@ public class LdapConfiguration {
         return contextSource;
     }
 
-//    @Bean
-//    public ContextSource poolingLdapContextSource() {
-//
-//        PoolConfig poolConfig = new PoolConfig();
-//        poolConfig.setTestOnBorrow(true);
-//        poolConfig.setTestWhileIdle(true);
-//        poolConfig.setTimeBetweenEvictionRunsMillis(60000);
-//        poolConfig.setMaxTotalPerKey(-1);
-//        poolConfig.setMaxIdlePerKey(-1);
-//        PooledContextSource pooledContextSource = new PooledContextSource(poolConfig);
-//        pooledContextSource.setContextSource(contextSource());
-//        pooledContextSource.setDirContextValidator(new DefaultDirContextValidator());
-//
-//        return new TransactionAwareContextSourceProxy(pooledContextSource);
-//    }
-
     @Bean
     public LdapTemplate ldapTemplate() {
         return new LdapTemplate(contextSource());

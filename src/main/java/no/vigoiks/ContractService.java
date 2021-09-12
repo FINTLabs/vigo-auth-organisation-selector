@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class OrganisationSelectorService {
+public class ContractService {
 
     @Value("${vigo.authentication.organisation.selector.idp-uri-template:https://idp.felleskomponent.no/nidp/saml2/spsend?id=%s&sid=1}")
     private String idpUriTemplate;
@@ -34,7 +34,7 @@ public class OrganisationSelectorService {
     @Getter
     private List<AuthenticationContract> customerContracts;
 
-    public OrganisationSelectorService(NIDSSaml2TrustedIDPRepository nidsSaml2TrustedIDPRepository, NIDSAccessSettingsRepository nidsAccessSettingsRepository, NIDSImageRepository nidsImageRepository) {
+    public ContractService(NIDSSaml2TrustedIDPRepository nidsSaml2TrustedIDPRepository, NIDSAccessSettingsRepository nidsAccessSettingsRepository, NIDSImageRepository nidsImageRepository) {
         this.nidsSaml2TrustedIDPRepository = nidsSaml2TrustedIDPRepository;
         this.nidsAccessSettingsRepository = nidsAccessSettingsRepository;
         this.nidsImageRepository = nidsImageRepository;
