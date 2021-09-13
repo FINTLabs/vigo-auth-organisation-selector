@@ -6,7 +6,6 @@ import no.vigoiks.model.*;
 import no.vigoiks.repository.NIDSAccessSettingsRepository;
 import no.vigoiks.repository.NIDSImageRepository;
 import no.vigoiks.repository.NIDSSaml2TrustedIDPRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ldap.query.LdapQueryBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,6 @@ import java.util.stream.Collectors;
 @Service
 public class ContractService {
 
-    @Value("${vigo.authentication.organisation.selector.idp-uri-template:https://idp.felleskomponent.no/nidp/saml2/spsend?id=%s&sid=1}")
-    private String idpUriTemplate;
 
     private final NIDSSaml2TrustedIDPRepository nidsSaml2TrustedIDPRepository;
     private final NIDSAccessSettingsRepository nidsAccessSettingsRepository;
@@ -78,8 +75,7 @@ public class ContractService {
                         .create(
                                 nidsAccessSettings,
                                 getImage(nidsAccessSettings),
-                                String.format(idpUriTemplate, nidsAccessSettings.getNidsCardId()
-                                )
+                                nidsAccessSettings.getNidsCardId()
                         );
     }
 

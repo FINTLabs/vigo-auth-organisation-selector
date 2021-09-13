@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class AuthenticationContract {
     private String displayName;
-    private String url;
+    private String cardId;
     private Image image;
     private boolean customer;
     private boolean common;
@@ -19,7 +19,7 @@ public class AuthenticationContract {
                 .customer(false)
                 .common(false)
                 .image(image)
-                .url(url)
+                .cardId(url)
                 .displayName(nidsAccessSettings.getNidsCardText());
 
         if (authenticationCardId.getType().equals(AuthenticationCardId.TYPE_CUSTOMER)) {
