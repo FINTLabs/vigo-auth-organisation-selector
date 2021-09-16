@@ -11,7 +11,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URLClassLoader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
@@ -62,7 +64,7 @@ public class Controller {
         }
 
         if (StringUtils.hasText(redirectProperties.getTarget())) {
-            url.queryParam("target", redirectProperties.getTarget());
+            url.queryParam("target", encodeValue(redirectProperties.getTarget()));
         }
 
         if (StringUtils.hasText(redirectProperties.getSid())) {
@@ -71,6 +73,15 @@ public class Controller {
 
         redirectResponse.setUrl(url.build().toUriString());
         return ResponseEntity.ok(redirectResponse);
+    }
+
+    private String encodeValue(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            log.info("Shitt");
+            return value;
+        }
     }
 
 }
