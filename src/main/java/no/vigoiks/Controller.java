@@ -1,6 +1,7 @@
 package no.vigoiks;
 
 import io.micrometer.core.instrument.MeterRegistry;
+
 import lombok.extern.slf4j.Slf4j;
 import no.vigoiks.config.AppConfig;
 import no.vigoiks.model.AuthenticationContract;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
 
 import java.net.URLClassLoader;
 import java.util.List;
@@ -44,14 +46,7 @@ public class Controller {
     public ResponseEntity<RedirectResponse> redirect(@RequestBody RedirectProperties redirectProperties) {
         meterRegistry.counter("vigo.common.auth.contract.redirect", "id", redirectProperties.getId(), "target", redirectProperties.getTarget()).increment();
         RedirectResponse redirectResponse = new RedirectResponse();
-        redirectResponse.setUrl(String.format(config.getIdpUriTemplate(), redirectProperties.getId(), redirectProperties.getTarget()));
 
-
-//        UriComponentsBuilder().newInstance().path("https://idp.felleskomponent.no")
-//                .queryParam("sid", 0)
-//                .queryParam("target", "vg.no")
-//                .queryParam("id", "rogfk")
-//                .build()
         UriComponentsBuilder url = UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host("idp.felleskomponent.no")
@@ -70,6 +65,7 @@ public class Controller {
         }
 
         redirectResponse.setUrl(url.build().toUriString());
+
         return ResponseEntity.ok(redirectResponse);
     }
 
