@@ -1,15 +1,19 @@
 package no.vigoiks;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import io.prometheus.client.Counter;
+
 import lombok.extern.slf4j.Slf4j;
 import no.vigoiks.config.AppConfig;
 import no.vigoiks.model.AuthenticationContract;
 import no.vigoiks.model.RedirectProperties;
 import no.vigoiks.model.RedirectResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+
+import java.net.URLClassLoader;
 import java.util.List;
 
 @Slf4j
@@ -42,7 +46,26 @@ public class Controller {
     public ResponseEntity<RedirectResponse> redirect(@RequestBody RedirectProperties redirectProperties) {
         meterRegistry.counter("vigo.common.auth.contract.redirect", "id", redirectProperties.getId(), "target", redirectProperties.getTarget()).increment();
         RedirectResponse redirectResponse = new RedirectResponse();
-        redirectResponse.setUrl(String.format(config.getIdpUriTemplate(), redirectProperties.getId(),redirectProperties.getTarget()));
+
+        UriComponentsBuilder url = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("idp.felleskomponent.no")
+                .path("/nidp/saml2/spsend");
+
+        if (StringUtils.hasText(redirectProperties.getId())) {
+            url.queryParam("id", redirectProperties.getId());
+        }
+
+        if (StringUtils.hasText(redirectProperties.getTarget())) {
+            url.queryParam("target", redirectProperties.getTarget());
+        }
+
+        if (StringUtils.hasText(redirectProperties.getSid())) {
+            url.queryParam("sid", redirectProperties.getSid());
+        }
+
+        redirectResponse.setUrl(url.build().toUriString());
+
         return ResponseEntity.ok(redirectResponse);
     }
 
