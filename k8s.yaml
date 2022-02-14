@@ -1,3 +1,19 @@
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: vigo-auth-organisation-selector
+  labels:
+spec:
+  itemPath: "vaults/aks-api-vault/items/vigo-auth-organisation-selector"
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: namadmcon01
+  labels:
+spec:
+  itemPath: "vaults/aks-api-vault/items/namadmcon01"
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -44,7 +60,7 @@ spec:
                 path: cacerts.jks
       containers:
         - name: vigo-auth-organisation-selector
-          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:build.${BUILD_NUMBER}_${GIT_COMMIT}
+          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:dummy
           env:
             - { name: management.endpoints.web.exposure.include, value: "info, health, metrics, prometheus" }
             - { name: TZ, value: Europe/Oslo }
