@@ -21,4 +21,5 @@
 
 3. Create a secret in Kubernetes
 > This secret must be created directly in K8s and cannot go via 1Password :(
+
 `kubectl create secret generic <name of secret> --from-literal=truststore_password=changeit --from-file=cacerts.jks`
