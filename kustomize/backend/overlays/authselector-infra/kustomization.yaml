@@ -6,12 +6,12 @@ patchesStrategicMerge:
   - ingress-route.yaml
 resources:
   - ../../base
-namespace: viken-no
+namespace: default
 commonLabels:
-  app.kubernetes.io/name: fint-betaling-backend
-  app.kubernetes.io/instance: fint-betaling-backend-viken-no
+  app.kubernetes.io/name: vigo-auth-organisation-selector
+  app.kubernetes.io/instance: vigo-auth-organisation-selector
   app.kubernetes.io/version: "latest"
   app.kubernetes.io/managed-by: "ga"
   app.kubernetes.io/component: backend
-  app.kubernetes.io/part-of: fint-betaling
-  fintlabs.no/team: core
+  app.kubernetes.io/part-of: vigo-auth-organisation-selector
+  fintlabs.no/team: flais
