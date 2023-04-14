@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: vigo-auth-organisation-selector
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`auth.felleskomponent.no`)
+      kind: Rule
+      services:
+        - name: vigo-auth-organisation-selector
+          port: 8080
