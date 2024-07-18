@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: vigo-auth-organisation-selector
-          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:643ece726613b68fd9fca8497c6f6bd8e5a851ad
+          image: ghcr.io/fintlabs/vigo-auth-organisation-selector:sha-05c9d22
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:+ExitOnOutOfMemoryError -Xmx500m"
@@ -36,7 +36,7 @@ spec:
               cpu: "25m"
 
         - name: stunnel
-          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector-ldap-proxy
+          image: ghcr.io/fintlabs/vigo-auth-organisation-selector-ldap-proxy:sha-05c9d22
           env:
             - name: SERVER_ADDRESS
               value: "10.0.0.11"
