@@ -14,13 +14,12 @@ on:
 
   workflow_dispatch:
 
-env:
-  REGISTRY_NAME: fintlabsacr
-  APP_NAME: vigo-auth-organisation-selector-ldap-proxy
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
 
@@ -28,16 +27,16 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}
+          images: ghcr.io/${{ github.repository }}-ldap-proxy
           tags: |
             type=sha
 
       - name: Docker login to container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY_NAME }}.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -46,6 +45,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      
+
       - name: Print docker tag
         run: echo 'Docker-tag er ${{ steps.meta.outputs.tags }} ' >> $GITHUB_STEP_SUMMARY
