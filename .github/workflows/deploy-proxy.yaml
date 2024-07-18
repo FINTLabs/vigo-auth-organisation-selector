@@ -1,0 +1,51 @@
+name: Deploy Proxy
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ldap-proxy/**
+
+  pull_request:
+    branches:
+      - 'master'
+    paths:
+      - ldap-proxy/**
+
+  workflow_dispatch:
+
+env:
+  REGISTRY_NAME: fintlabsacr
+  APP_NAME: vigo-auth-organisation-selector-ldap-proxy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}
+          tags: |
+            type=sha
+
+      - name: Docker login to container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_NAME }}.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Print docker tag
+        run: echo 'Docker-tag er ${{ steps.meta.outputs.tags }} ' >> $GITHUB_STEP_SUMMARY
