@@ -6,8 +6,8 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`auth.felleskomponent.no`)
-      kind: Rule
+    - kind: Rule
+      match:  Host(`auth.felleskomponent.no`)
       services:
         - name: vigo-auth-organisation-selector
           port: 8080

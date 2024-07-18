@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vigo-auth-organisation-selector
+spec:
+  selector:
+    matchLabels:
+      app: vigo-auth-organisation-selector
+  template:
+    metadata:
+      labels:
+        app: vigo-auth-organisation-selector
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/actuator/prometheus"
+    spec:
+      containers:
+        - name: vigo-auth-organisation-selector
+          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector:643ece726613b68fd9fca8497c6f6bd8e5a851ad
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:+ExitOnOutOfMemoryError -Xmx500m"
+          envFrom:
+            - secretRef:
+                name: vigo-auth-organisation-selector
+          ports:
+            - containerPort: 8080
+
+          resources:
+            limits:
+              memory: "500Mi"
+              cpu: "100m"
+            requests:
+              memory: "300Mi"
+              cpu: "25m"
+
+        - name: stunnel
+          image: fintlabsacr.azurecr.io/vigo-auth-organisation-selector-ldap-proxy
+          env:
+            - name: SERVER_ADDRESS
+              value: "10.0.0.11"
+          ports:
+            - containerPort: 389
+
+          resources:
+            limits:
+              memory: "100Mi"
+              cpu: "50m"
+            requests:
+              memory: "30Mi"
+              cpu: "10m"
+
