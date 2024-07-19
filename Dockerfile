@@ -1,9 +1,9 @@
-FROM ghcr.io/fintlabs/vigo-auth-organisation-selector-frontend:sha-be8ea38 as node
+FROM ghcr.io/fintlabs/vigo-auth-organisation-selector-frontend:sha-be8ea38 as frontend
 
 FROM gradle:7.1.1-jdk11 as builder
 USER root
 COPY . .
-COPY --from=node /src/build/ src/main/resources/public/
+COPY --from=frontend /html/ src/main/resources/public/
 RUN gradle --no-daemon clean build
 
 # FROM gcr.io/distroless/java:11
