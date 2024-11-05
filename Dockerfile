@@ -1,4 +1,4 @@
-FROM ghcr.io/fintlabs/vigo-auth-organisation-selector-frontend:sha-be8ea38 as frontend
+FROM ghcr.io/fintlabs/vigo-auth-organisation-selector-frontend:sha-051d255 as frontend
 
 FROM gradle:7.1.1-jdk11 as builder
 USER root
