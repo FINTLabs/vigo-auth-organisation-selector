@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: vigo-auth-organisation-selector
-          image: ghcr.io/fintlabs/vigo-auth-organisation-selector:sha-ca7eca5
+          image: ghcr.io/fintlabs/vigo-auth-organisation-selector:sha-3bbbdfb
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:+ExitOnOutOfMemoryError -Xmx500m"
