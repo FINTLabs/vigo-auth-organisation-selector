@@ -45,11 +45,7 @@ public class Controller {
     public ResponseEntity<RedirectResponse> redirect(@RequestBody RedirectProperties redirectProperties) {
         meterRegistry.counter("vigo.common.auth.contract.redirect", "id", redirectProperties.getId(), "target", redirectProperties.getTarget()).increment();
         RedirectResponse redirectResponse = new RedirectResponse();
-        UriComponentsBuilder url = UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host("idp.felleskomponent.no")
-                .path("/nidp/saml2/spsend");
-
+        UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(config.getIdpRedirectUri());
         if (StringUtils.hasText(redirectProperties.getId())) {
             url.queryParam("id", redirectProperties.getId());
         }
@@ -67,12 +63,7 @@ public class Controller {
     }
 
     private String encodeValue(String value) {
-        try {
-            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException e) {
-            log.info("Shitt");
-            return value;
-        }
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 
 }
