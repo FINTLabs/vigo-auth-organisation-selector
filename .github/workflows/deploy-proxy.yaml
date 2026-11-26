@@ -1,17 +1,5 @@
 name: Deploy Proxy
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - ldap-proxy/**
-
-  pull_request:
-    branches:
-      - 'master'
-    paths:
-      - ldap-proxy/**
-
   workflow_dispatch:
 
 jobs:
@@ -21,25 +9,25 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7.0.1
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6.2.0
         with:
           images: ghcr.io/${{ github.repository }}-ldap-proxy
           tags: |
             type=sha
 
       - name: Docker login to container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4.8.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7.4.0
         with:
           context: ./ldap-proxy
           push: ${{ github.event_name != 'pull_request' }}
